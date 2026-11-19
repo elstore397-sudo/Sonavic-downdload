@@ -472,7 +472,7 @@
     function confirmToWhatsApp() {
       const deviceId = document.getElementById('deviceIdInput').value.trim() || "(Belum diisi - akan dikirim menyusul)";
       const metode = activeMethod === 'qris' ? 'QRIS' : 'Transfer DANA';
-      const pesan = `Halo Admin EDYE PROJECT,\n\nSaya sudah melakukan pembayaran *${STORE_CONFIG.appName}* (${STORE_CONFIG.priceFormatted}) via *${metode}*.\n\n• Device ID: *${deviceId}*\n\nBerikut saya lampirkan screenshot bukti pembayarannya. Mohon diproses kode aktivasinya. Terima kasih!`;
+      const pesan = `Halo Admin,\n\nSaya sudah melakukan pembayaran *${STORE_CONFIG.appName}* (${STORE_CONFIG.priceFormatted}) via *${metode}*.\n\n• Device ID: *${deviceId}*\n\nBerikut saya lampirkan screenshot bukti pembayarannya. Mohon diproses kode aktivasinya. Terima kasih!`;
       const waUrl = `https://wa.me/${STORE_CONFIG.adminWhatsApp}?text=${encodeURIComponent(pesan)}`;
       window.open(waUrl, '_blank');
     }

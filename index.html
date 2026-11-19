@@ -40,7 +40,6 @@
       overflow-x: hidden;
     }
 
-    /* Edye Signature Console Glows & Borders */
     .console-card {
       background: linear-gradient(145deg, #18181D 0%, #121216 100%);
       border: 1px solid rgba(212, 175, 55, 0.18);
@@ -76,7 +75,6 @@
       border: 1px solid rgba(212, 175, 55, 0.35);
     }
 
-    /* Subtle Animated EQ Bars */
     @keyframes eqPulse1 { 0%, 100% { height: 28%; } 50% { height: 92%; } }
     @keyframes eqPulse2 { 0%, 100% { height: 75%; } 50% { height: 32%; } }
     @keyframes eqPulse3 { 0%, 100% { height: 42%; } 50% { height: 98%; } }
@@ -91,27 +89,26 @@
 <body class="antialiased selection:bg-gold selection:text-obsidian">
 
   <!-- =====================================================================
-       KONFIGURASI PENJUAL (GANTI DATA ANDA DI SINI SAAT DEPLOY)
+       KONFIGURASI PENJUAL (GANTI DATA ANDA DI SINI SEBELUM PUSH KE GITHUB)
        ===================================================================== -->
   <script>
     const STORE_CONFIG = {
       appName: "SONAVIC PRO AUDIO",
       priceFormatted: "Rp 30.000",
-      // Ganti nomor WhatsApp Admin dengan format 628xxx (tanpa tanda + atau 0 di depan)
-      adminWhatsApp: "6281234567890",
-      // Ganti nomor DANA tujuan transfer
-      danaNumber: "0812-3456-7890",
-      danaAccountName: "EDYE PROJECT",
-      // Ganti link download file APK Trial / Installer Anda (Google Drive / MediaFire / GitHub)
-      apkDownloadUrl: "#download-apk",
-      // Jika Anda sudah punya file gambar QRIS asli (misal: qris-edye.jpg), isi path-nya di bawah.
-      // Jika dikosongkan (""), halaman otomatis menampilkan kode QRIS pratinjau yang rapi.
+      // Ganti dengan nomor WhatsApp Anda (format 628xxx tanpa + atau 0 di depan)
+      adminWhatsApp: "6285156667887",
+      // Ganti dengan nomor DANA Anda
+      danaNumber: "082223333385",
+      danaAccountName: "EDI KRISDIANTO",
+      // Ganti dengan nama file APK Anda yang di-upload ke GitHub (contoh: "./sonavic-v1.0.apk")
+      apkDownloadUrl: "./sonavic.apk",
+      // Isi nama file gambar QRIS Anda jika sudah di-upload ke GitHub (contoh: "./qris-edye.jpg")
       customQrisImageUrl: ""
     };
   </script>
 
-<!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[100] hidden items-center gap-2.5 bg-console border border-gold text-white px-5 py-3 rounded-xl shadow-2xl text-sm font-semibold">
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[100] hidden items-center gap-2.5 bg-console border border-gold text-white px-5 py-3 rounded-xl shadow-2xl text-sm font-semibold whitespace-nowrap">
     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
     <span id="toastMessage">Berhasil disalin!</span>
   </div>
@@ -120,7 +117,6 @@
   <header class="sticky top-0 z-40 bg-obsidian/90 backdrop-blur-md border-b border-white/10">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <!-- Mini Console Logo Icon -->
         <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-burgundy to-obsidian border border-gold/50 flex items-end justify-center gap-1 p-2 shadow-inner shrink-0">
           <span class="w-1 bg-goldBright rounded-full eq-bar-1"></span>
           <span class="w-1 bg-goldBright rounded-full eq-bar-3"></span>
@@ -141,7 +137,6 @@
 
   <!-- Hero Section -->
   <section class="relative pt-10 pb-16 sm:pt-16 sm:pb-24 px-4 sm:px-6 overflow-hidden">
-    <!-- Background Radial Accent -->
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[680px] h-[340px] bg-burgundy/25 blur-[130px] rounded-full pointer-events-none"></div>
 
     <div class="max-w-5xl mx-auto text-center relative z-10">
@@ -173,16 +168,16 @@
         <p class="text-xs text-gray-400">Sekali bayar seumur hidup • Tanpa biaya bulanan • Bebas tukar kode preset</p>
       </div>
 
-<!-- Primary & Secondary CTA Buttons -->
+      <!-- Primary & Secondary CTA Buttons -->
       <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 max-w-lg mx-auto">
-        <button onclick="openPaymentModal('qris')" class="w-full sm:w-auto flex-1 gold-gradient-btn font-black text-xs sm:text-sm px-4 sm:px-6 py-3.5 sm:py-4 rounded-xl flex items-center justify-center text-center gap-2 cursor-pointer">
+        <button type="button" onclick="openPaymentModal('qris')" class="w-full sm:w-auto flex-1 gold-gradient-btn font-black text-xs sm:text-sm px-4 sm:px-6 py-3.5 sm:py-4 rounded-xl flex items-center justify-center text-center gap-2 cursor-pointer">
           <svg class="w-4 h-4 sm:w-5 sm:h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
           </svg>
           <span>BELI SEKARANG • Rp 30.000</span>
         </button>
 
-        <button onclick="handleDownloadApk()" class="w-full sm:w-auto bg-console hover:bg-panel text-gray-200 border border-white/15 hover:border-gold/40 font-bold text-xs sm:text-sm px-4 sm:px-5 py-3.5 sm:py-4 rounded-xl flex items-center justify-center text-center gap-2 transition cursor-pointer">
+        <button type="button" onclick="handleDownloadApk()" class="w-full sm:w-auto bg-console hover:bg-panel text-gray-200 border border-white/15 hover:border-gold/40 font-bold text-xs sm:text-sm px-4 sm:px-5 py-3.5 sm:py-4 rounded-xl flex items-center justify-center text-center gap-2 transition cursor-pointer">
           <svg class="w-4 h-4 text-gold shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
           </svg>
@@ -204,7 +199,6 @@
       </div>
 
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-        <!-- Module Items -->
         <div class="console-card console-card-hover rounded-xl p-4">
           <div class="text-xs font-mono text-goldBright font-bold mb-1">01 • EQUALIZER</div>
           <h3 class="font-bold text-sm sm:text-base text-white">32-Band Graphic EQ</h3>
@@ -230,8 +224,7 @@
         </div>
 
         <div class="console-card console-card-hover rounded-xl p-4">
-
-<div class="text-xs font-mono text-goldBright font-bold mb-1">05 • REVERB</div>
+          <div class="text-xs font-mono text-goldBright font-bold mb-1">05 • REVERB</div>
           <h3 class="font-bold text-sm sm:text-base text-white">Pro Space Reverb</h3>
           <p class="text-xs text-gray-400 mt-1">Simulasi akustik ruangan &amp; panggung live yang natural.</p>
         </div>
@@ -292,8 +285,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="console-card rounded-2xl p-5 relative">
           <span class="w-8 h-8 rounded-lg bg-burgundy border border-gold/40 text-goldBright font-mono font-bold text-sm flex items-center justify-center mb-3">1</span>
-
-<h3 class="font-bold text-white text-base mb-1">Pilih Metode Bayar</h3>
+          <h3 class="font-bold text-white text-base mb-1">Pilih Metode Bayar</h3>
           <p class="text-xs text-gray-400 leading-relaxed">Klik tombol <strong>Beli Sekarang</strong>, lalu pilih bayar lewat scan <strong>QRIS</strong> atau transfer <strong>DANA</strong> sebesar <strong>Rp 30.000</strong>.</p>
         </div>
 
@@ -323,7 +315,7 @@
           <h3 class="text-xl sm:text-2xl font-black text-white mt-1">Dapatkan Lisensi Permanen SONAVIC Sekarang</h3>
           <p class="text-xs sm:text-sm text-gray-400 mt-1">Hanya <strong>Rp 30.000</strong> sekali bayar. Mendukung pembayaran QRIS &amp; DANA.</p>
         </div>
-        <button onclick="openPaymentModal('qris')" class="w-full md:w-auto gold-gradient-btn font-black text-xs sm:text-sm px-4 sm:px-6 py-3.5 sm:py-4 rounded-xl flex items-center justify-center text-center gap-2 cursor-pointer">
+        <button type="button" onclick="openPaymentModal('qris')" class="w-full md:w-auto gold-gradient-btn font-black text-xs sm:text-sm px-4 sm:px-6 py-3.5 sm:py-4 rounded-xl flex items-center justify-center text-center gap-2 cursor-pointer">
           <span>PILIH PEMBAYARAN • Rp 30.000</span>
         </button>
       </div>
@@ -339,20 +331,177 @@
   <!-- =====================================================================
        MODAL PEMBAYARAN INTERAKTIF (QRIS & DANA)
        ===================================================================== -->
-  <div id="paymentModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-    <div class="console-card w-full max-w-md rounded-2xl border border-gold/50 overflow-hidden my-auto shadow-2xl animate-[fadeIn_0.2s_ease-out]">
+  <div id="paymentModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/85 backdrop-blur-sm overflow-y-auto">
+    <div class="console-card w-full max-w-md rounded-2xl border border-gold/50 overflow-hidden my-auto shadow-2xl">
       
       <!-- Modal Header -->
       <div class="bg-gradient-to-r from-burgundy to-console px-5 py-4 border-b border-gold/25 flex items-center justify-between">
-
-<div>
+        <div>
           <span class="text-[10px] font-mono uppercase tracking-widest text-goldBright block">CHECKOUT LISENSI RESMI</span>
           <h3 class="font-black text-base sm:text-lg text-white">SONAVIC PRO AUDIO</h3>
         </div>
-        <button onclick="closePaymentModal()" class="w-8 h-8 rounded-lg bg-black/40 hover:bg-black/70 text-gray-300 hover:text-white flex items-center justify-center transition cursor-pointer" aria-label="Tutup">
+        <button type="button" onclick="closePaymentModal()" class="w-8 h-8 rounded-lg bg-black/40 hover:bg-black/70 text-gray-300 hover:text-white flex items-center justify-center transition cursor-pointer" aria-label="Tutup">
           ✕
         </button>
       </div>
 
       <!-- Ringkasan Nominal -->
       <div class="px-5 py-3 bg-obsidian/70 border-b border-white/10 flex items-center justify-between">
+        <span class="text-xs text-gray-400">Total Pembayaran</span>
+        <span class="text-lg font-black text-goldBright font-mono">Rp 30.000</span>
+      </div>
+
+            <!-- Tab Pilihan QRIS / DANA -->
+      <div class="grid grid-cols-2 gap-2 p-4 pb-0">
+        <button type="button" id="tabQris" onclick="switchPaymentTab('qris')" class="py-2.5 px-3 rounded-xl font-bold text-xs border transition cursor-pointer bg-burgundy/60 border-gold text-goldBright">
+          SCAN QRIS
+        </button>
+        <button type="button" id="tabDana" onclick="switchPaymentTab('dana')" class="py-2.5 px-3 rounded-xl font-bold text-xs border transition cursor-pointer bg-obsidian border-white/10 text-gray-400 hover:text-white">
+          TRANSFER DANA
+        </button>
+      </div>
+
+      <!-- Konten QRIS -->
+      <div id="panelQris" class="p-5 text-center">
+        <div class="bg-white rounded-xl p-3 max-w-[210px] mx-auto mb-3 shadow-lg">
+          <img id="qrisImgPreview" src="" alt="Kode QRIS EDYE PROJECT" class="w-full h-auto rounded-lg" />
+        </div>
+        <p class="text-xs text-gray-300 font-semibold">EDYE PROJECT • QRIS ALL PAYMENT</p>
+        <p class="text-[11px] text-gray-400 mt-1">Scan menggunakan DANA, GoPay, OVO, ShopeePay, atau Mobile Banking senilai <strong class="text-goldBright">Rp 30.000</strong>.</p>
+      </div>
+
+      <!-- Konten DANA -->
+      <div id="panelDana" class="p-5 hidden">
+        <div class="bg-obsidian border border-white/10 rounded-xl p-4 text-center">
+          <span class="text-[11px] font-mono text-sky-400 font-bold uppercase tracking-wider">TUJUAN TRANSFER DANA</span>
+          <div id="danaNumberDisplay" class="text-2xl font-mono font-black text-white my-2 tracking-wider">0812-3456-7890</div>
+          <p id="danaNameDisplay" class="text-xs text-gray-400 mb-3">A/N EDYE PROJECT</p>
+          <button type="button" onclick="copyDanaNumber()" class="w-full py-2.5 px-4 rounded-lg bg-panel hover:bg-white/10 border border-gold/40 text-goldBright font-bold text-xs transition cursor-pointer">
+            SALIN NOMOR DANA
+          </button>
+        </div>
+      </div>
+
+      <!-- Input Opsional Device ID & Tombol Konfirmasi WhatsApp -->
+      <div class="px-5 pb-5 space-y-3">
+        <div>
+          <label for="deviceIdInput" class="block text-[11px] font-mono text-gray-400 mb-1">DEVICE ID HP ANDA (OPSIONAL)</label>
+          <input id="deviceIdInput" type="text" placeholder="Contoh: SNV-8A2F-91C4" class="w-full bg-obsidian border border-white/15 focus:border-gold rounded-xl px-3.5 py-2.5 text-xs font-mono text-white placeholder-gray-600 outline-none" />
+        </div>
+
+        <button type="button" onclick="confirmToWhatsApp()" class="w-full gold-gradient-btn font-black text-xs py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 cursor-pointer">
+          <span>KONFIRMASI BUKTI BAYAR VIA WHATSAPP</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       SCRIPT INTERAKTIF (MODAL, QRIS, COPY DANA, DOWNLOAD APK)
+       ===================================================================== -->
+  <script>
+    let activeMethod = 'qris';
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMessage');
+      toastMsg.textContent = msg;
+      toast.classList.remove('hidden');
+      toast.classList.add('flex');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+        toast.classList.remove('flex');
+      }, 2800);
+    }
+
+    function initStoreData() {
+      document.getElementById('danaNumberDisplay').textContent = STORE_CONFIG.danaNumber;
+      document.getElementById('danaNameDisplay').textContent = "A/N " + STORE_CONFIG.danaAccountName;
+
+      const qrisImg = document.getElementById('qrisImgPreview');
+      if (STORE_CONFIG.customQrisImageUrl && STORE_CONFIG.customQrisImageUrl.trim() !== "") {
+        qrisImg.src = STORE_CONFIG.customQrisImageUrl;
+      } else {
+        // Fallback QR code otomatis jika gambar QRIS belum diisi
+        qrisImg.src = "https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=" + encodeURIComponent("EDYE-PROJECT-SONAVIC-" + STORE_CONFIG.danaNumber);
+      }
+    }
+
+    function openPaymentModal(defaultTab = 'qris') {
+      const modal = document.getElementById('paymentModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      switchPaymentTab(defaultTab);
+    }
+
+    function closePaymentModal() {
+      const modal = document.getElementById('paymentModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function switchPaymentTab(method) {
+      activeMethod = method;
+      const tabQris = document.getElementById('tabQris');
+      const tabDana = document.getElementById('tabDana');
+      const panelQris = document.getElementById('panelQris');
+      const panelDana = document.getElementById('panelDana');
+
+      if (method === 'qris') {
+        tabQris.className = "py-2.5 px-3 rounded-xl font-bold text-xs border transition cursor-pointer bg-burgundy/60 border-gold text-goldBright";
+        tabDana.className = "py-2.5 px-3 rounded-xl font-bold text-xs border transition cursor-pointer bg-obsidian border-white/10 text-gray-400 hover:text-white";
+        panelQris.classList.remove('hidden');
+        panelDana.classList.add('hidden');
+      } else {
+        tabDana.className = "py-2.5 px-3 rounded-xl font-bold text-xs border transition cursor-pointer bg-burgundy/60 border-gold text-goldBright";
+        tabQris.className = "py-2.5 px-3 rounded-xl font-bold text-xs border transition cursor-pointer bg-obsidian border-white/10 text-gray-400 hover:text-white";
+        panelDana.classList.remove('hidden');
+        panelQris.classList.add('hidden');
+      }
+    }
+
+    function copyDanaNumber() {
+      const cleanNumber = STORE_CONFIG.danaNumber.replace(/[^0-9]/g, '');
+      navigator.clipboard.writeText(cleanNumber).then(() => {
+        showToast("Nomor DANA berhasil disalin!");
+      }).catch(() => {
+        showToast("Nomor DANA: " + cleanNumber);
+      });
+    }
+
+    function confirmToWhatsApp() {
+      const deviceId = document.getElementById('deviceIdInput').value.trim() || "(Belum diisi - akan dikirim menyusul)";
+      const metode = activeMethod === 'qris' ? 'QRIS' : 'Transfer DANA';
+      const pesan = `Halo Admin EDYE PROJECT,\n\nSaya sudah melakukan pembayaran *${STORE_CONFIG.appName}* (${STORE_CONFIG.priceFormatted}) via *${metode}*.\n\n• Device ID: *${deviceId}*\n\nBerikut saya lampirkan screenshot bukti pembayarannya. Mohon diproses kode aktivasinya. Terima kasih!`;
+      const waUrl = `https://wa.me/${STORE_CONFIG.adminWhatsApp}?text=${encodeURIComponent(pesan)}`;
+      window.open(waUrl, '_blank');
+    }
+
+    function handleDownloadApk() {
+      if (!STORE_CONFIG.apkDownloadUrl || STORE_CONFIG.apkDownloadUrl === "#download-apk") {
+        showToast("Link file APK belum diatur di STORE_CONFIG!");
+        return;
+      }
+      showToast("Memulai unduhan SONAVIC APK...");
+      const link = document.createElement('a');
+      link.href = STORE_CONFIG.apkDownloadUrl;
+      link.setAttribute('download', 'SONAVIC-PRO-AUDIO.apk');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Tutup modal jika area gelap di luar kotak diklik
+    document.getElementById('paymentModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closePaymentModal();
+      }
+    });
+
+    // Jalankan inisialisasi data saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', initStoreData);
+  </script>
+</body>
+</html>
+
+        

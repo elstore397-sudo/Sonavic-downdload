@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SONAVIC PRO AUDIO V2.1 — 32-Band DSP & Equalizer | EDYE PROJECT</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            obsidian: '#0D0D0F',
+            console: '#16161A',
+            panel: '#1E1E24',
+            burgundy: '#6B1228',
+            burgundyLight: '#941B39',
+            gold: '#D4AF37',
+            goldBright: '#F3C64F',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0D0D0F;
+      color: #F4F4F6;
+      overflow-x: hidden;
+    }
+
+    .console-card {
+      background: linear-gradient(145deg, #18181D 0%, #121216 100%);
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
+    }
+
+    .console-card-hover {
+      transition: all 0.25s ease;
+    }
+    .console-card-hover:hover {
+      border-color: rgba(212, 175, 55, 0.55);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 36px rgba(107, 18, 40, 0.25);
+    }
+
+    .gold-gradient-btn {
+      background: linear-gradient(135deg, #F3C64F 0%, #D4AF37 55%, #B58E22 100%);
+      color: #0D0D0F;
+      box-shadow: 0 6px 24px rgba(212, 175, 55, 0.35);
+      transition: all 0.2s ease;
+    }
+    .gold-gradient-btn:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 28px rgba(243, 198, 79, 0.5);
+    }
+    .gold-gradient-btn:active {
+      transform: scale(0.98);
+    }
+
+    .burgundy-badge {
+      background: linear-gradient(90deg, rgba(107, 18, 40, 0.85) 0%, rgba(148, 27, 57, 0.65) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+    }
+
+    @keyframes eqPulse1 { 0%, 100% { height: 28%; } 50% { height: 92%; } }
+    @keyframes eqPulse2 { 0%, 100% { height: 75%; } 50% { height: 32%; } }
+    @keyframes eqPulse3 { 0%, 100% { height: 42%; } 50% { height: 98%; } }
+    @keyframes eqPulse4 { 0%, 100% { height: 85%; } 50% { height: 24%; } }
+
+    .eq-bar-1 { animation: eqPulse1 1.1s ease-in-out infinite; }
+    .eq-bar-2 { animation: eqPulse2 0.9s ease-in-out infinite; }
+    .eq-bar-3 { animation: eqPulse3 1.3s ease-in-out infinite; }
+    .eq-bar-4 { animation: eqPulse4 1.0s ease-in-out infinite; }
+  </style>
+</head>
+<body class="antialiased selection:bg-gold selection:text-obsidian">
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[100] hidden items-center gap-2.5 bg-console border border-gold text-white px-5 py-3 rounded-xl shadow-2xl text-sm font-semibold whitespace-nowrap">
+    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+    <span id="toastMessage">Berhasil disalin!</span>
+  </div>
+
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-40 bg-obsidian/90 backdrop-blur-md border-b border-white/10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-burgundy to-obsidian border border-gold/50 flex items-end justify-center gap-1 p-2 shadow-inner shrink-0">
+          <span class="w-1 bg-goldBright rounded-full eq-bar-1"></span>
+          <span class="w-1 bg-goldBright rounded-full eq-bar-3"></span>
+          <span class="w-1 bg-goldBright rounded-full eq-bar-2"></span>
+          <span class="w-1 bg-goldBright rounded-full eq-bar-4"></span>
+        </div>
+        <div class="flex items-center flex-wrap gap-2">
+          <span class="font-black tracking-wider text-base sm:text-lg text-white">SONAVIC PRO AUDIO</span>
+          <span class="hidden sm:inline-block text-[11px] font-mono uppercase tracking-widest text-gold px-2 py-0.5 rounded bg-burgundy/40 border border-gold/30">EDYE PROJECT</span>
+        </div>
+      </div>
+
+      <div class="flex items-center">
+        <a href="#cara-beli" class="hidden md:inline-block text-xs font-semibold text-gray-300 hover:text-gold px-3 py-2 transition">Cara Pembelian</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative pt-10 pb-16 sm:pt-16 sm:pb-24 px-4 sm:px-6 overflow-hidden">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[680px] h-[340px] bg-burgundy/25 blur-[130px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-5xl mx-auto text-center relative z-10">
+      <div class="inline-flex items-center gap-2 burgundy-badge px-4 py-1.5 rounded-full mb-6">
+        <span class="w-2 h-2 rounded-full bg-goldBright animate-ping"></span>
+        <span class="text-[11px] sm:text-xs font-mono font-bold tracking-widest text-goldBright uppercase">
+          EDYE PROJECT • PRO AUDIO DSP FOR ANDROID
+        </span>
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-[1.15] mb-5">
+        Ubah Audio HP Jadi <span class="text-transparent bg-clip-text bg-gradient-to-r from-goldBright via-gold to-amber-200">Rasa DLMS & Studio</span>
+      </h1>
+
+      <p class="max-w-2xl mx-auto text-sm sm:text-lg text-gray-300 leading-relaxed mb-8">
+        <strong>SONAVIC PRO AUDIO</strong> adalah prosesor suara 32-Band Equalizer &amp; 11 Modul DSP lengkap. Bikin bass <em>glerr</em> empuk, vokal jernih, dan separasi stereo luas di TWS, Car Audio, maupun Sound System—tanpa suara pecah (<em>anti-clip</em>).
+      </p>
+
+      <!-- Price Card Highlight -->
+      <div class="max-w-md mx-auto console-card rounded-2xl p-5 mb-8 border border-gold/40">
+        <div class="flex items-center justify-between text-xs font-mono text-gray-400 mb-1">
+          <span>LISENSI PERMANEN (1 PERANGKAT)</span>
+          <span class="text-emerald-400 font-bold">● PROMO RILIS</span>
+        </div>
+        <div class="flex items-baseline justify-center gap-3 my-2">
+          <span class="text-base sm:text-lg text-gray-500 line-through font-semibold">Rp 65.000</span>
+          <span class="text-3xl sm:text-4xl font-black text-goldBright tracking-tight">Rp 30.000</span>
+        </div>
+        <p class="text-xs text-gray-400">Sekali bayar seumur hidup • Tanpa biaya bulanan • Bebas tukar kode preset</p>
+      </div>
+
+      <!-- Primary & Secondary CTA Buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 max-w-lg mx-auto">
+        <button type="button" id="btnBuyHero" class="w-full sm:w-auto flex-1 gold-gradient-btn font-black text-xs sm:text-sm px-4 sm:px-6 py-3.5 sm:py-4 rounded-xl flex items-center justify-center text-center gap-2 cursor-pointer">
+          <svg class="w-4 h-4 sm:w-5 sm:h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+          </svg>
+          <span>BELI SEKARANG • Rp 30.000</span>
+        </button>
+
+        <a id="btnDownloadApk" href="https://github.com/elstore397-sudo/Sonavic-downdload/releases/download/V2.1/SONAVIC_PRO_V2.1.apk" class="w-full sm:w-auto bg-console hover:bg-panel text-gray-200 border border-white/15 hover:border-gold/40 font-bold text-xs sm:text-sm px-4 sm:px-5 py-3.5 sm:py-4 rounded-xl flex items-center justify-center text-center gap-2 transition cursor-pointer">
+          <svg class="w-4 h-4 text-gold shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+          </svg>
+          <span>UNDUH APK V2.1</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 Pro Audio Modules Section -->
+  <section class="py-12 sm:py-16 px-4 sm:px-6 border-t border-white/5 bg-console/40">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-xs font-mono uppercase tracking-widest text-gold font-bold">ARSITEKTUR AUDIO LENGKAP</span>
+        <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">11 Modul DSP Dalam Satu Genggaman</h2>
+        <p class="text-xs sm:text-sm text-gray-400 mt-2 max-w-xl mx-auto">
+          Bekerja mulus untuk YouTube background, Spotify, TikTok, maupun pemutar musik lokal dengan perlindungan <em>Limiter</em> &amp; <em>Subsonic Filter</em>.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div class="console-card console-card-hover rounded-xl p-4">
+          <div class="text-xs font-mono text-goldBright font-bold mb-1">01 • EQUALIZER</div>
+          <h3 class="font-bold text-sm sm:text-base text-white">32-Band Graphic EQ</h3>
+          <p class="text-xs text-gray-400 mt-1">Atur detail frekuensi dari 20Hz sub-bass hingga 20kHz treble kristal.</p>
+        </div>
+
+        <div class="console-card console-card-hover rounded-xl p-4">
+          <div class="text-xs font-mono text-goldBright font-bold mb-1">02 • PARAMETRIC</div>
+          <h3 class="font-bold text-sm sm:text-base text-white">Parametric EQ</h3>
+          <p class="text-xs text-gray-400 mt-1">Koreksi titik frekuensi spesifik dengan kontrol Q-Factor presisi.</p>
+        </div>
+
+        <div class="console-card console-card-hover rounded-xl p-4">
+          <div class="text-xs font-mono text-goldBright font-bold mb-1">03 • EXCITER</div>
+          <h3 class="font-bold text-sm sm:text-base text-white">Harmonic Exciter</h3>
+          <p class="text-xs text-gray-400 mt-1">Angkat kejernihan vokal dan pukulan bass agar terasa lebih hidup.</p>
+        </div>
+
+        <div class="console-card console-card-hover rounded-xl p-4">
+          <div class="text-xs font-mono text-goldBright font-bold mb-1">04 • IMAGER</div>
+          <h3 class="font-bold text-sm sm:text-base text-white">Stereo Imager</h3>
+          <p class="text-xs text-gray-400 mt-1">Perluas panggung suara kanan-kiri dengan kunci mono di frekuensi sub.</p>
+        </div>
+
+        <div class="console-card console-card-hover rounded-xl p-4">
+          <div class="text-xs font-mono text-goldBright font-bold mb-1">05 • REVERB</div>
+          <h3 class="font-bold text-sm sm:text-base text-white">Pro Space Reverb</h3>
+          <p class="text-xs text-gray-400 mt-1">Simulasi akustik ruangan &amp; panggung live yang natural.</p>
+        </div>
+
+        <div class="console-card console-card-hover rounded-xl p-4">
+          <div class="text-xs font-mono text-goldBright font-bold mb-1">06 • DELAY</div>
+          <h3 class="font-bold text-sm sm:text-base text-white">Precision Delay</h3>
+          <p class="text-xs text-gray-400 mt-1">Atur pantulan gema dan sinkronisasi waktu sinyal audio.</p>
+        </div>
+
+        <div class="console-card console-card-hover rounded-xl p-4">
+          <div class="text-xs font-mono text-goldBright font-bold mb-1">07 • DYNAMICS</div>
+          <h3 class="font-bold text-sm sm:text-base text-white">Dynamics Sub</h3>
+          <p class="text-xs text-gray-400 mt-1">Padatkan dentuman bass agar tetap bertenaga di volume kecil maupun besar.</p>
+        </div>
+
+        <div class="console-card console-card-hover rounded-xl p-4">
+          <div class="text-xs font-mono text-goldBright font-bold mb-1">08 • LIMITER</div>
+          <h3 class="font-bold text-sm sm:text-base text-white">Anti-Clip Limiter</h3>
+          <p class="text-xs text-gray-400 mt-1">Cegah distorsi &amp; lindungi spul speaker atau driver TWS dari jebol.</p>
+        </div>
+
+        <div class="console-card console-card-hover rounded-xl p-4">
+          <div class="text-xs font-mono text-goldBright font-bold mb-1">09 • RESONANCE</div>
+          <h3 class="font-bold text-sm sm:text-base text-white">Bass Resonance</h3>
+          <p class="text-xs text-gray-400 mt-1">Kontrol karakter getaran sub-low untuk karakter horeg maupun SQ.</p>
+        </div>
+
+        <div class="console-card console-card-hover rounded-xl p-4">
+          <div class="text-xs font-mono text-goldBright font-bold mb-1">10 • CROSSOVER</div>
+          <h3 class="font-bold text-sm sm:text-base text-white">Active Crossover</h3>
+          <p class="text-xs text-gray-400 mt-1">Pemisahan jalur frekuensi Low, Mid, dan High layaknya DLMS fisik.</p>
+        </div>
+
+        <div class="console-card console-card-hover rounded-xl p-4">
+          <div class="text-xs font-mono text-goldBright font-bold mb-1">11 • EFFECT</div>
+          <h3 class="font-bold text-sm sm:text-base text-white">Master DSP Effect</h3>
+          <p class="text-xs text-gray-400 mt-1">Sentuhan akhir karakter warna suara sesuai selera telinga Anda.</p>
+        </div>
+
+        <div class="console-card console-card-hover rounded-xl p-4 border-gold/40 bg-gradient-to-br from-burgundy/30 to-console">
+          <div class="text-xs font-mono text-emerald-400 font-bold mb-1">BONUS • PRESETS</div>
+          <h3 class="font-bold text-sm sm:text-base text-white">10 Preset + Share Kode</h3>
+          <p class="text-xs text-gray-300 mt-1">Termasuk mode <strong>DEFAULT</strong> (racik dari 0), simpan preset sendiri, &amp; bagikan kode terenkripsi.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step-by-Step Purchase Guide -->
+  <section id="cara-beli" class="py-12 sm:py-16 px-4 sm:px-6">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-xs font-mono uppercase tracking-widest text-gold font-bold">PROSES CEPAT &amp; MUDAH</span>
+        <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">Cara Pembelian &amp; Aktivasi Lisensi</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="console-card rounded-2xl p-5 relative">
+          <span class="w-8 h-8 rounded-lg bg-burgundy border border-gold/40 text-goldBright font-mono font-bold text-sm flex items-center justify-center mb-3">1</span>
+          <h3 class="font-bold text-white text-base mb-1">Pilih Metode Bayar</h3>
+          <p class="text-xs text-gray-400 leading-relaxed">Klik tombol <strong>Beli Sekarang</strong>, lalu pilih bayar lewat scan <strong>QRIS</strong> atau transfer <strong>DANA</strong> sebesar <strong>Rp 30.000</strong>.</p>
+        </div>
+
+        <div class="console-card rounded-2xl p-5 relative">
+          <span class="w-8 h-8 rounded-lg bg-burgundy border border-gold/40 text-goldBright font-mono font-bold text-sm flex items-center justify-center mb-3">2</span>
+          <h3 class="font-bold text-white text-base mb-1">Simpan Bukti Bayar</h3>
+          <p class="text-xs text-gray-400 leading-relaxed">Screenshot bukti pembayaran berhasil dari aplikasi e-wallet atau mobile banking Anda.</p>
+        </div>
+
+        <div class="console-card rounded-2xl p-5 relative">
+          <span class="w-8 h-8 rounded-lg bg-burgundy border border-gold/40 text-goldBright font-mono font-bold text-sm flex items-center justify-center mb-3">3</span>
+          <h3 class="font-bold text-white text-base mb-1">Salin Device ID HP</h3>
+          <p class="text-xs text-gray-400 leading-relaxed">Buka APK <strong>SONAVIC</strong> di HP Anda, lalu tekan tombol <strong>SALIN DEVICE ID</strong> (<code class="text-gold">SNV-XXXX-XXXX</code>).</p>
+        </div>
+
+        <div class="console-card rounded-2xl p-5 relative">
+          <span class="w-8 h-8 rounded-lg bg-burgundy border border-gold/40 text-goldBright font-mono font-bold text-sm flex items-center justify-center mb-3">4</span>
+          <h3 class="font-bold text-white text-base mb-1">Terima Kode Aktivasi</h3>
+          <p class="text-xs text-gray-400 leading-relaxed">Kirim bukti bayar &amp; Device ID ke WhatsApp Admin untuk menerima <strong>Kode Aktivasi Permanen</strong>.</p>
+        </div>
+      </div>
+
+      <!-- Bottom Call to Action Banner -->
+      <div class="mt-10 console-card rounded-2xl p-5 sm:p-8 border border-gold/35 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="w-full md:w-auto">
+          <span class="text-xs font-mono text-goldBright font-bold uppercase">SIAP UPGRADE SUARA HP ANDA?</span>
+          <h3 class="text-xl sm:text-2xl font-black text-white mt-1">Dapatkan Lisensi Permanen SONAVIC Sekarang</h3>
+          <p class="text-xs sm:text-sm text-gray-400 mt-1">Hanya <strong>Rp 30.000</strong> sekali bayar. Mendukung pembayaran QRIS &amp; DANA.</p>
+        </div>
+        <button type="button" id="btnBuyBottom" class="w-full md:w-auto gold-gradient-btn font-black text-xs sm:text-sm px-4 sm:px-6 py-3.5 sm:py-4 rounded-xl flex items-center justify-center text-center gap-2 cursor-pointer">
+          <span>PILIH PEMBAYARAN • Rp 30.000</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/10 py-8 px-4 text-center text-xs text-gray-500">
+    <p class="font-mono text-gray-400">&copy; 2026 EDYE PROJECT — SONAVIC PRO AUDIO DSP. All Rights Reserved.</p>
+    <p class="mt-1">Lisensi terkunci per perangkat (Hardware-Locked) untuk keamanan pengguna resmi.</p>
+  </footer>
+
+  <!-- =====================================================================
+       MODAL PEMBAYARAN INTERAKTIF (QRIS & DANA)
+       ===================================================================== -->
+  <div id="paymentModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/85 backdrop-blur-sm overflow-y-auto">
+    <div class="console-card w-full max-w-md rounded-2xl border border-gold/50 overflow-hidden my-auto shadow-2xl">
+      
+      <!-- Modal Header -->
+      <div class="bg-gradient-to-r from-burgundy to-console px-5 py-4 border-b border-gold/25 flex items-center justify-between">
+        <div>
+          <span class="text-[10px] font-mono uppercase tracking-widest text-goldBright block">CHECKOUT LISENSI RESMI</span>
+          <h3 class="font-black text-base sm:text-lg text-white">SONAVIC PRO AUDIO</h3>
+        </div>
+        <button type="button" id="btnCloseModal" class="w-8 h-8 rounded-lg bg-black/40 hover:bg-black/70 text-gray-300 hover:text-white flex items-center justify-center transition cursor-pointer" aria-label="Tutup">
+          ✕
+        </button>
+      </div>
+
+      <!-- Ringkasan Nominal -->
+      <div class="px-5 py-3 bg-obsidian/70 border-b border-white/10 flex items-center justify-between">
+        <span class="text-xs text-gray-400">Total Pembayaran</span>
+        <span class="text-lg font-black text-goldBright font-mono">Rp 30.000</span>
+      </div>
+
+      <!-- Tab Pilihan QRIS / DANA -->
+      <div class="grid grid-cols-2 gap-2 p-4 pb-0">
+        <button type="button" id="tabQris" class="py-2.5 px-3 rounded-xl font-bold text-xs border transition cursor-pointer bg-burgundy/60 border-gold text-goldBright">
+          SCAN QRIS
+        </button>
+        <button type="button" id="tabDana" class="py-2.5 px-3 rounded-xl font-bold text-xs border transition cursor-pointer bg-obsidian border-white/10 text-gray-400 hover:text-white">
+          TRANSFER DANA
+        </button>
+      </div>
+
+      <!-- Konten QRIS -->
+      <div id="panelQris" class="p-5 text-center">
+        <div class="bg-white rounded-xl p-3 max-w-[210px] mx-auto mb-3 shadow-lg">
+          <img id="qrisImgPreview" src="./qris.jpg" alt="Kode QRIS EDYE PROJECT" class="w-full h-auto rounded-lg" />
+        </div>
+        <p class="text-xs text-gray-300 font-semibold">EDYE PROJECT • QRIS ALL PAYMENT</p>
+        <p class="text-[11px] text-gray-400 mt-1">Scan menggunakan DANA, GoPay, OVO, ShopeePay, atau Mobile Banking senilai <strong class="text-goldBright">Rp 30.000</strong>.</p>
+      </div>
+
+      <!-- Konten DANA -->
+      <div id="panelDana" class="p-5 hidden">
+        <div class="bg-obsidian border border-white/10 rounded-xl p-4 text-center">
+          <span class="text-[11px] font-mono text-sky-400 font-bold uppercase tracking-wider">TUJUAN TRANSFER DANA</span>
+          <div id="danaNumberDisplay" class="text-2xl font-mono font-black text-white my-2 tracking-wider">082223333385</div>
+          <p id="danaNameDisplay" class="text-xs text-gray-400 mb-3">A/N EDI KRISDIANTO</p>
+          <button type="button" id="btnCopyDana" class="w-full py-2.5 px-4 rounded-lg bg-panel hover:bg-white/10 border border-gold/40 text-goldBright font-bold text-xs transition cursor-pointer">
+            SALIN NOMOR DANA
+          </button>
+        </div>
+      </div>
+
+      <!-- Input Device ID & Tombol Konfirmasi WhatsApp -->
+      <div class="px-5 pb-5 space-y-3">
+        <div>
+          <label for="deviceIdInput" class="block text-[11px] font-mono text-gray-400 mb-1">DEVICE ID HP ANDA (SALIN DARI APLIKASI)</label>
+          <input id="deviceIdInput" type="text" placeholder="Contoh: SNV-3B3D-5907" class="w-full bg-obsidian border border-white/15 focus:border-gold rounded-xl px-3.5 py-2.5 text-xs font-mono text-white uppercase placeholder-gray-600 outline-none" />
+        </div>
+
+        <button type="button" id="btnConfirmWa" class="w-full gold-gradient-btn font-black text-xs py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 cursor-pointer">
+          <span>KONFIRMASI BUKTI BAYAR VIA WHATSAPP</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       SCRIPT INTERAKTIF
+       ===================================================================== -->
+  <script>
+    const STORE_CONFIG = {
+      appName: "SONAVIC PRO AUDIO",
+      priceFormatted: "Rp 30.000",
+      adminWhatsApp: "6285156667887",
+      danaNumber: "082223333385",
+      danaAccountName: "EDI KRISDIANTO",
+      apkDownloadUrl: "https://github.com/elstore397-sudo/Sonavic-downdload/releases/download/V2.1/SONAVIC_PRO_V2.1.apk",
+      customQrisImageUrl: "./qris.jpg"
+    };
+
+    let activeMethod = 'qris';
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMessage');
+      toastMsg.textContent = msg;
+      toast.classList.remove('hidden');
+      toast.classList.add('flex');
+      setTimeout(function() {
+        toast.classList.add('hidden');
+        toast.classList.remove('flex');
+      }, 2800);
+    }
+
+    function openPaymentModal(defaultTab) {
+      const modal = document.getElementById('paymentModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      switchPaymentTab(defaultTab || 'qris');
+    }
+
+    function closePaymentModal() {
+      const modal = document.getElementById('paymentModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function switchPaymentTab(method) {
+      activeMethod = method;
+      const tabQris = document.getElementById('tabQris');
+      const tabDana = document.getElementById('tabDana');
+      const panelQris = document.getElementById('panelQris');
+      const panelDana = document.getElementById('panelDana');
+
+      if (method === 'qris') {
+        tabQris.className = "py-2.5 px-3 rounded-xl font-bold text-xs border transition cursor-pointer bg-burgundy/60 border-gold text-goldBright";
+        tabDana.className = "py-2.5 px-3 rounded-xl font-bold text-xs border transition cursor-pointer bg-obsidian border-white/10 text-gray-400 hover:text-white";
+        panelQris.classList.remove('hidden');
+        panelDana.classList.add('hidden');
+      } else {
+        tabDana.className = "py-2.5 px-3 rounded-xl font-bold text-xs border transition cursor-pointer bg-burgundy/60 border-gold text-goldBright";
+        tabQris.className = "py-2.5 px-3 rounded-xl font-bold text-xs border transition cursor-pointer bg-obsidian border-white/10 text-gray-400 hover:text-white";
+        panelDana.classList.remove('hidden');
+        panelQris.classList.add('hidden');
+      }
+    }
+
+    function copyDanaNumber() {
+      const cleanNumber = STORE_CONFIG.danaNumber.replace(/[^0-9]/g, '');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(cleanNumber).then(function() {
+          showToast("Nomor DANA berhasil disalin!");
+        }).catch(function() {
+          showToast("Nomor DANA: " + cleanNumber);
+        });
+      } else {
+        showToast("Nomor DANA: " + cleanNumber);
+      }
+    }
+
+    function confirmToWhatsApp() {
+      const rawDeviceId = document.getElementById('deviceIdInput').value.trim().toUpperCase();
+      const metode = activeMethod === 'qris' ? 'QRIS' : 'Transfer DANA';
+
+      const deviceBlock = rawDeviceId
+        ? "*Device ID (Ketuk untuk salin):*\n```" + rawDeviceId + "```"
+        : "*Device ID:* _(Belum diisi - akan dikirim menyusul)_";
+
+      const pesan =
+        "Halo Admin *EDYE PROJECT*,\n\n" +
+        "Saya sudah melakukan pembayaran *" + STORE_CONFIG.appName + "* (" + STORE_CONFIG.priceFormatted + ") via *" + metode + "*.\n\n" +
+        deviceBlock + "\n\n" +
+        "Berikut saya lampirkan bukti transfernya. Mohon diproses kode aktivasinya. Terima kasih!";
+
+      const waUrl = "https://wa.me/" + STORE_CONFIG.adminWhatsApp + "?text=" + encodeURIComponent(pesan);
+      window.location.href = waUrl;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('danaNumberDisplay').textContent = STORE_CONFIG.danaNumber;
+      document.getElementById('danaNameDisplay').textContent = "A/N " + STORE_CONFIG.danaAccountName;
+
+      const qrisImg = document.getElementById('qrisImgPreview');
+      if (STORE_CONFIG.customQrisImageUrl && STORE_CONFIG.customQrisImageUrl.trim() !== "") {
+        qrisImg.src = STORE_CONFIG.customQrisImageUrl;
+      }
+
+      const btnDownload = document.getElementById('btnDownloadApk');
+      btnDownload.href = STORE_CONFIG.apkDownloadUrl;
+      btnDownload.addEventListener('click', function() {
+        showToast("Mengunduh SONAVIC_PRO_V2.1.apk...");
+      });
+
+      document.getElementById('btnBuyHero').addEventListener('click', function() {
+        openPaymentModal('qris');
+      });
+
+      document.getElementById('btnBuyBottom').addEventListener('click', function() {
+        openPaymentModal('qris');
+      });
+
+      document.getElementById('btnCloseModal').addEventListener('click', closePaymentModal);
+
+      document.getElementById('tabQris').addEventListener('click', function() {
+        switchPaymentTab('qris');
+      });
+
+      document.getElementById('tabDana').addEventListener('click', function() {
+        switchPaymentTab('dana');
+      });
+
+      document.getElementById('btnCopyDana').addEventListener('click', copyDanaNumber);
+      document.getElementById('btnConfirmWa').addEventListener('click', confirmToWhatsApp);
+
+      const deviceInput = document.getElementById('deviceIdInput');
+      deviceInput.addEventListener('input', function() {
+        this.value = this.value.toUpperCase().replace(/\s+/g, '');
+      });
+
+      document.getElementById('paymentModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+          closePaymentModal();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

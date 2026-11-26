@@ -149,20 +149,43 @@
         <p class="text-xs text-gray-400">Sekali bayar seumur hidup • Tanpa biaya bulanan • Bebas tukar kode preset</p>
       </div>
 
-      <!-- Primary & Secondary CTA Buttons -->
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 max-w-lg mx-auto">
-        <button type="button" id="btnBuyHero" class="w-full sm:w-auto flex-1 gold-gradient-btn font-black text-xs sm:text-sm px-4 sm:px-6 py-3.5 sm:py-4 rounded-xl flex items-center justify-center text-center gap-2 cursor-pointer">
-          <svg class="w-4 h-4 sm:w-5 sm:h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+      <!-- Primary Buy Button & Dual Download Buttons -->
+      <div class="max-w-md mx-auto space-y-3.5">
+        <!-- Tombol Beli Utama -->
+        <button type="button" id="btnBuyHero" class="w-full gold-gradient-btn font-black text-xs sm:text-sm px-5 py-4 rounded-xl flex items-center justify-center text-center gap-2 cursor-pointer">
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
           </svg>
           <span>BELI SEKARANG • Rp 30.000</span>
         </button>
 
-        <a id="btnDownloadApk" href="https://github.com/elstore397-sudo/Sonavic-downdload/releases/download/V2.1/SONAVIC_PRO_V2.1.apk" class="w-full sm:w-auto bg-console hover:bg-panel text-gray-200 border border-white/15 hover:border-gold/40 font-bold text-xs sm:text-sm px-4 sm:px-5 py-3.5 sm:py-4 rounded-xl flex items-center justify-center text-center gap-2 transition cursor-pointer">
-          <svg class="w-4 h-4 text-gold shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+        <!-- Tombol 1: Untuk User Lama -->
+        <a id="btnDownloadOldUser" href="https://github.com/elstore397-sudo/Sonavic-downdload/releases/download/Latest/SONAVIC_PRO_V2.3.1.apk" class="w-full bg-console hover:bg-panel text-gray-200 border border-white/15 hover:border-gold/50 font-bold px-5 py-3.5 rounded-xl flex items-center justify-center gap-3 transition cursor-pointer">
+          <svg class="w-5 h-5 text-gold shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
           </svg>
-          <span>SONAVIC V2.3</span>
+          <div class="flex flex-col items-center leading-tight">
+            <span class="text-xs sm:text-sm font-bold text-white">Untuk User Lama Ambil Disini</span>
+            <span class="text-[11px] sm:text-xs font-mono font-bold text-goldBright tracking-wider mt-0.5">SONAVIC V2.3.1</span>
+          </div>
+        </a>
+
+        <!-- Pemisah "Atau" -->
+        <div class="relative flex py-1 items-center">
+          <div class="flex-grow border-t border-white/10"></div>
+          <span class="flex-shrink mx-3 text-[11px] font-mono uppercase tracking-widest text-gray-500">Atau Pengguna Baru</span>
+          <div class="flex-grow border-t border-white/10"></div>
+        </div>
+
+        <!-- Tombol 2: Untuk User Baru -->
+        <a id="btnDownloadNewUser" href="https://github.com/elstore397-sudo/Sonavic-downdload/releases/download/Latest/SONAVIC_PRO_V2.3.1.apk" class="w-full bg-console hover:bg-panel text-gray-200 border border-white/15 hover:border-gold/50 font-bold px-5 py-3.5 rounded-xl flex items-center justify-center gap-3 transition cursor-pointer">
+          <svg class="w-5 h-5 text-gold shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+          </svg>
+          <div class="flex flex-col items-center leading-tight">
+            <span class="text-xs sm:text-sm font-bold text-white">Untuk User Baru Ambil Disini</span>
+            <span class="text-[11px] sm:text-xs font-mono font-bold text-goldBright tracking-wider mt-0.5">SONAVIC V2.3.1</span>
+          </div>
         </a>
       </div>
     </div>
@@ -387,7 +410,8 @@
       adminWhatsApp: "6285156667887",
       danaNumber: "082223333385",
       danaAccountName: "EDI KRISDIANTO",
-      apkDownloadUrl: "https://github.com/elstore397-sudo/Sonavic-downdload/releases/download/Latest/SONAVIC_PRO_V2.3.apk",
+      oldUserApkUrl: "https://github.com/elstore397-sudo/Sonavic-downdload/releases/download/Latest/SONAVIC_PRO_V2.3.1.apk",
+      newUserApkUrl: "https://github.com/elstore397-sudo/Sonavic-downdload/releases/download/Latest/SONAVIC_PRO_V2.3.1.apk",
       customQrisImageUrl: "./qris.jpg"
     };
 
@@ -456,13 +480,20 @@
       const metode = activeMethod === 'qris' ? 'QRIS' : 'Transfer DANA';
 
       const deviceBlock = rawDeviceId
-        ? "*Device ID (Ketuk untuk salin):*\n```" + rawDeviceId + "```"
+        ? "*Device ID (Ketuk untuk salin):*
+```" + rawDeviceId + "```"
         : "*Device ID:* _(Belum diisi - akan dikirim menyusul)_";
 
       const pesan =
-        "Halo Admin *EDYE PROJECT*,\n\n" +
-        "Saya sudah melakukan pembayaran *" + STORE_CONFIG.appName + "* (" + STORE_CONFIG.priceFormatted + ") via *" + metode + "*.\n\n" +
-        deviceBlock + "\n\n" +
+        "Halo Admin *EDYE PROJECT*,
+
+" +
+        "Saya sudah melakukan pembayaran *" + STORE_CONFIG.appName + "* (" + STORE_CONFIG.priceFormatted + ") via *" + metode + "*.
+
+" +
+        deviceBlock + "
+
+" +
         "Berikut saya lampirkan bukti transfernya. Mohon diproses kode aktivasinya. Terima kasih!";
 
       const waUrl = "https://wa.me/" + STORE_CONFIG.adminWhatsApp + "?text=" + encodeURIComponent(pesan);
@@ -478,10 +509,16 @@
         qrisImg.src = STORE_CONFIG.customQrisImageUrl;
       }
 
-      const btnDownload = document.getElementById('btnDownloadApk');
-      btnDownload.href = STORE_CONFIG.apkDownloadUrl;
-      btnDownload.addEventListener('click', function() {
-        showToast("Mengunduh SONAVIC_PRO_V2.1.apk...");
+      const btnDownloadOld = document.getElementById('btnDownloadOldUser');
+      btnDownloadOld.href = STORE_CONFIG.oldUserApkUrl;
+      btnDownloadOld.addEventListener('click', function() {
+        showToast("Mengunduh SONAVIC_PRO_V2.3.1 (User Lama)...");
+      });
+
+      const btnDownloadNew = document.getElementById('btnDownloadNewUser');
+      btnDownloadNew.href = STORE_CONFIG.newUserApkUrl;
+      btnDownloadNew.addEventListener('click', function() {
+        showToast("Mengunduh SONAVIC_PRO_V2.3.1 (User Baru)...");
       });
 
       document.getElementById('btnBuyHero').addEventListener('click', function() {
